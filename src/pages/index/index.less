@@ -1,0 +1,103 @@
+@french-gray: #BDBDBD;
+@dove-gray: #757575;
+
+.vertical-center {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.text-overflow {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.index {
+  .post-container {
+    padding-bottom: 20px;
+
+    .post-item {
+      height: 150px;
+      width: 710px;
+      margin: 20px auto;
+      border-radius: 6px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+      padding: 20px;
+      box-sizing: border-box;
+
+      .post-info {
+        height: 32px;
+        display: flex;
+        justify-content: space-between;
+        color: @french-gray;
+        margin-bottom: 10px;
+
+        .post-feed {
+          .vertical-center();
+          .logo {
+            width: 32px;
+            height: 32px;
+          }
+
+          .post-feed-title {
+            font-family: PingFangSC-Medium;
+            font-size: 20px;
+            margin-left: 12px;
+          }
+        }
+
+        .post-status {
+          .vertical-center();
+          .post-is-read {
+            width: 10px;
+            height: 10px;
+            border-radius: 100px;
+            background-color: @french-gray;
+            margin-right: 6px;
+          }
+
+          .post-time {
+            font-family: PingFangSC-Regular;
+            font-size: 16px;
+          }
+        }
+      }
+
+      .post-title-container {
+        width: 670px;
+        font-family: PingFangSC-Medium;
+        .text-overflow();
+
+        .post-title {
+          font-size: 22px;
+          color: #000000;
+        }
+      }
+
+      .post-content-container {
+        width: 670px;
+        font-family: PingFangSC-Medium;
+        .text-overflow();
+
+        .post-content {
+          font-size: 18px;
+          color: @french-gray;
+        }
+      }
+    }
+  }
+
+
+  .empty-container {
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .empty-msg {
+      font-size: 28px;
+      color: #9E9E9E;
+    }
+  }
+}
