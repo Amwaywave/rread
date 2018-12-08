@@ -92,7 +92,7 @@ export const getPosts = async (collection?: Collection) => {
         })
       }
     })
-    console.log(posts)
+    collection.posts = posts
   }
   return Promise.resolve(posts)
 }
