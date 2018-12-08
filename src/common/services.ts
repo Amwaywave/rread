@@ -28,6 +28,7 @@ const mockData = {
   ]
 }
 
+
 function getHeaders() {
   return {
     "Authorization": TOKEN
@@ -48,9 +49,9 @@ function request(url: string): Promise<any> {
 }
 
 export const getCollections = async (): Promise<Collection[]> => {
-  console.log("--------------")
   let collections: Collection[] = []
-  const data = await request(API_COLLECTIONS)
+  const res = await request(API_COLLECTIONS)
+  const data = res.data
   if (data && data.length > 0) {
     data.forEach(e => {
       let feeds: Feed[] = []
@@ -76,7 +77,22 @@ export const getPosts = async (collection?: Collection) => {
     // 直接使用已经获取的feeds
     const reqList = collection.feeds.map(({ feedId }) => request(API_POST_LIST.replace("{streamId}", encodeURIComponent(feedId))))
     const resList = await Promise.all(reqList)
-    posts = resList.map(({ id, title, summary, content, date, originUrl }) => ({ id, title, summary, content, date, originUrl }))
+    resList.forEach(res => {
+      let data = res.data
+      if (data.items && data.items.length > 0) {
+        data.items.forEach(item => {
+          posts.push({
+            id: item.id,
+            title: item.title,
+            originUrl: item.originId,
+            summary: item.summary ? item.summary.content : "",
+            content: item.summary ? item.summary.content : "",
+            date: new Date(item.published)
+          })
+        })
+      }
+    })
+    console.log(posts)
   }
   return Promise.resolve(posts)
 }
