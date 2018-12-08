@@ -1,6 +1,6 @@
 import Taro from '@tarojs/taro'
 import { Post, Collection, Feed } from '../model'
-import {getTextByHtml } from './utils'
+import { getTextByHtml } from './utils'
 
 // api server
 const API_DOMAIN = "https://cloud.feedly.com"
@@ -78,13 +78,12 @@ export const getPosts = async (collection?: Collection) => {
     // 直接使用已经获取的feeds
     const reqList = collection.feeds.map(({ feedId }) => request(API_POST_LIST.replace("{streamId}", encodeURIComponent(feedId))))
     const resList = await Promise.all(reqList)
-    resList.forEach((res, index)=> {
+    resList.forEach((res, index) => {
       const feed = collection.feeds[index]
       let data = res.data
       if (data.items && data.items.length > 0) {
         data.items.forEach(item => {
-        let content = getTextByHtml(item.summary ? item.summary.content : "")
-        console.log(content)
+          let content = getTextByHtml(item.summary ? item.summary.content : "")
           posts.push({
             id: item.id,
             title: item.title,

@@ -72,8 +72,8 @@ class Index extends Component {
                         <View className="post-item" key={post.id}>
                           <View className="post-info">
                             <View className="post-feed">
-                              <Image className="logo" src="http://ww1.sinaimg.cn/large/6aacac8fly1fxzig19jrwj205k05k745.jpg"></Image>
-                              <Text className="post-feed-title">少数派</Text>
+                              <Image className="logo" src={post.feed.icon}></Image>
+                              <Text className="post-feed-title">{post.feed.title}</Text>
                             </View>
                             <View className="post-status">
                               <View className="post-is-read"/>
