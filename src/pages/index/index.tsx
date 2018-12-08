@@ -84,7 +84,7 @@ class Index extends Component {
                             <Text className="post-title">{post.title}</Text>
                           </View>
                           <View className="post-content-container">
-                            <Text className="post-content">{post.content && post.content.substr(post.content.lastIndexOf('>') + 1)}</Text>
+                            <Text className="post-content">{post.summary}</Text>
                           </View>
                         </View>
                       ))

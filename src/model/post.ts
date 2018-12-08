@@ -13,10 +13,10 @@ export type Post = {
   id: string,
   title: string,
   summary: string,
-  content: string,
   date: Date,
   // 源地址
-  originUrl: string
+  originUrl: string,
+  feed: Feed
   // tagList: Tag[]
 }
 
