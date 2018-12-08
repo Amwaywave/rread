@@ -1,5 +1,6 @@
 import Taro from '@tarojs/taro'
 import { Post, Collection, Feed } from '../model'
+import {getTextByHtml } from './utils'
 
 // api server
 const API_DOMAIN = "https://cloud.feedly.com"
@@ -9,7 +10,7 @@ const API_COLLECTIONS = "/v3/collections"
 const API_POST_LIST = "/v3/streams/{streamId}/contents?count=1"
 
 //
-const TOKEN = "AyrCQtCm-PzFXwmeU8FZVsEQKEy8b7ePLj6F5PUzmsRgAZi2mvX4dYbknOIqO22C19LKKfnUOUkBjafZqboZMPB7l_whS5bMQ_mdK_S_4sQpjpq1Mcpm2HVCv-iH3RWTY_1CP0MxG9Dqs4qX-l8_JbPYY1_NsiuzMlC15LHv8OgNdxBdHcsUxB1PEasWsQRKYC5YHNaBdi9Q5jhUbuwxzV13dOnK8agUBnrVxWulo8cwTTXGOTMeHxWTh2QFNg:feedlydev"
+const TOKEN = "AyrCQtCm-PzFXwmeU8FZVsEQKEy8b7ePLj6F5PUzmsRgAZi2mvX4dYbknOIqO22C19LKKfzeOUcDiaTVqb4cNPJzl_EnT5zMQ_mdK_TptJcg2cmyY8pq2iNHv-jV3kOTOP5CakM_Tdu87Y2Xq11rcbPYY1_Nsiu0KF7jsqn34-8MeExeFclFlh9BEvNNuxZEbnoMBM7TdDJb9y5Dc-owgVN5IbzS6bgWB3zD2Wy-rclqFy3eaDQLEB-WlHJDaZc:feedlydev"
 
 const mockData = {
   posts: [
@@ -77,17 +78,20 @@ export const getPosts = async (collection?: Collection) => {
     // 直接使用已经获取的feeds
     const reqList = collection.feeds.map(({ feedId }) => request(API_POST_LIST.replace("{streamId}", encodeURIComponent(feedId))))
     const resList = await Promise.all(reqList)
-    resList.forEach(res => {
+    resList.forEach((res, index)=> {
+      const feed = collection.feeds[index]
       let data = res.data
       if (data.items && data.items.length > 0) {
         data.items.forEach(item => {
+        let content = getTextByHtml(item.summary ? item.summary.content : "")
+        console.log(content)
           posts.push({
             id: item.id,
             title: item.title,
             originUrl: item.originId,
-            summary: item.summary ? item.summary.content : "",
-            content: item.summary ? item.summary.content : "",
-            date: new Date(item.published)
+            summary: content,
+            date: new Date(item.published),
+            feed: feed
           })
         })
       }
