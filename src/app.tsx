@@ -1,8 +1,9 @@
 import Taro, { Component, Config } from '@tarojs/taro'
 import { Provider } from '@tarojs/mobx'
+import '@tarojs/async-await'
 import Index from './pages/index'
 
-import counterStore from './store/counter'
+import postsStore from './store/posts'
 
 import './app.less'
 
@@ -13,7 +14,7 @@ import './app.less'
 // }
 
 const store = {
-  counterStore
+  postsStore
 }
 
 class App extends Component {
