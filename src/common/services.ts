@@ -6,10 +6,10 @@ const API_DOMAIN = "https://cloud.feedly.com"
 // collections api
 const API_COLLECTIONS = "/v3/collections"
 // postlist api
-const API_POST_LIST = "/v3/streams/{streamId}/contents"
+const API_POST_LIST = "/v3/streams/{streamId}/contents?count=1"
 
-// 
-const TOKEN = "AyrCQtCm-PzFXwmeU8FZVsEQKEy8b7ePLj6F5PUzmsRgAZi2mvX4dYbknOIqO22C19LKKf_UN0QJiKLfoLwdNvR7mPUjSZnMQ_mdK_Tot5R9iJ3gY8pq3XBGv-iF0ReTY_QZPUM7Gdu-7YmXqlQ2KubYY1_Nsiu0KF7jsqn34-8MeExYE8tDlRoTEvNNuxZEbnoMBM7TdDJb9y5Dc-owgVN5IbzS6bgWB3zD2Wy-rclqFy3eaDQLEB-WlHJDaZc:feedlydev"
+//
+const TOKEN = "AyrCQtCm-PzFXwmeU8FZVsEQKEy8b7ePLj6F5PUzmsRgAZi2mvX4dYbknOIqO22C19LKKfnUOUkBjafZqboZMPB7l_whS5bMQ_mdK_S_4sQpjpq1Mcpm2HVCv-iH3RWTY_1CP0MxG9Dqs4qX-l8_JbPYY1_NsiuzMlC15LHv8OgNdxBdHcsUxB1PEasWsQRKYC5YHNaBdi9Q5jhUbuwxzV13dOnK8agUBnrVxWulo8cwTTXGOTMeHxWTh2QFNg:feedlydev"
 
 const mockData = {
   posts: [
@@ -38,7 +38,7 @@ function getHeaders() {
 /**
  *  发起请求
  * @param url 请求地址
- * @param callback	请求后的回调 
+ * @param callback	请求后的回调
  */
 function request(url: string): Promise<any> {
   console.log("send request: " + API_DOMAIN + url)
@@ -92,7 +92,7 @@ export const getPosts = async (collection?: Collection) => {
         })
       }
     })
-    collection.posts = posts
+    posts = posts
   }
-  return Promise.resolve(posts)
+  return Promise.resolve(posts.slice(0, 2))
 }

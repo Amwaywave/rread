@@ -2,8 +2,6 @@ import { observable } from 'mobx'
 import { services } from '../common'
 import { Collection } from '../model'
 
-const { getPosts, getCollections } = services
-
 const CATEGORIES = ['科技', '游戏', '博客', '时尚', '财经']
 const POSTS = [
   {
@@ -29,18 +27,25 @@ class PostStore {
   @observable
   collections: Collection[] = []
 
+  @observable
+  loading = false
 
-  get = async () => {
-    let collections = await getCollections()
-    console.log(collections)
-    // const posts: Post[] = await getPosts(collections[0])
-    // // const posts: Post[] = getPosts()
-    // console.log('posts', posts)
-    // this.posts = posts
+
+  getCollections = async () => {
+    this.collections = await services.getCollections()
+    this.getPosts(0)
   }
-}
 
-export default new PostStore()
+  getPosts = async (index) => {
+    this.loading = true
+    const collection = this.collections[index]
+    try {
+      this.collections[index].posts = await services.getPosts(collection)
+    } catch (error) {
+      console.error(error)
+    } finally {
+      this.loading = false
+    }
   }
 }
 

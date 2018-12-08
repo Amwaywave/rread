@@ -7079,7 +7079,7 @@ tar@^4, tar@^4.0.2:
 
 taro-ui@^1.5.1:
   version "1.5.1"
-  resolved "https://registry.npmjs.org/taro-ui/-/taro-ui-1.5.1.tgz#145c2bea3d9cf51370410b4783a8216d7ad3ca18"
+  resolved "http://registry.npm.taobao.org/taro-ui/download/taro-ui-1.5.1.tgz#145c2bea3d9cf51370410b4783a8216d7ad3ca18"
   dependencies:
     "@types/react" "^16.7.3"
     bind-decorator "^1.0.11"

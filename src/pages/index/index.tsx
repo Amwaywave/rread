@@ -1,6 +1,7 @@
 import Taro, { Component, Config } from '@tarojs/taro'
 import { View, Text, Image, ScrollView } from '@tarojs/components'
 import { observer, inject } from '@tarojs/mobx'
+import { observable } from 'mobx'
 import { AtTabs, AtTabsPane } from 'taro-ui'
 import { Collection } from '../../model'
 
@@ -9,7 +10,9 @@ import './index.less'
 type PageStateProps = {
   postsStore: {
     collections: Collection[],
-    get: Function
+    loading: boolean,
+    getCollections: Function,
+    getPosts: Function
   }
 }
 
@@ -32,33 +35,32 @@ class Index extends Component {
     navigationBarTitleText: '首页'
   }
 
-  state = {
-    current: 1
-  }
+  @observable current = 0
+
 
   componentDidMount () {
-    this.props.postsStore.get()
+    this.props.postsStore.getCollections()
   }
 
   handleClick = (index => {
-    this.setState({ current: index })
+    this.props.postsStore.getPosts(index)
+    this.current = index
   })
 
   render () {
-    const { current } = this.state
-    const { postsStore: { collections } } = this.props
+    const { postsStore: { collections, loading } } = this.props
     const tabList = collections.map(({ name: title }) => ({ title }))
     return (
       <View className='index'>
         <AtTabs
-          current={current}
+          current={this.current}
           scroll={tabList.length > 5}
           tabList={tabList}
           swipeable={true}
           onClick={this.handleClick}>
           {
             collections.map((item, index) => (
-              <AtTabsPane current={current} key={item.id} index={index}>
+              <AtTabsPane current={this.current} key={item.id} index={index}>
                 {
                   item.posts && item.posts.length ?
                   <ScrollView
@@ -79,10 +81,10 @@ class Index extends Component {
                             </View>
                           </View>
                           <View className="post-title-container">
-                            <Text className="post-title">想了解无用但有趣的「冷知识」，你可以来这7个网站看看</Text>
+                            <Text className="post-title">{post.title}</Text>
                           </View>
                           <View className="post-content-container">
-                            <Text className="post-content">如果你经常逛 YouTube 或是 bilibili，相信你一定见过以《X 件 XX 的事》，那么接下来</Text>
+                            <Text className="post-content">{post.content && post.content.substr(post.content.lastIndexOf('>') + 1)}</Text>
                           </View>
                         </View>
                       ))
@@ -90,7 +92,14 @@ class Index extends Component {
                   </ScrollView>
                   :
                   <View className="empty-container">
-                    <Text className="empty-msg">暂无内容</Text>
+                    {
+                      loading
+                      ?
+                      <Text className="empty-msg">加载中...</Text>
+                      :
+                      <Text className="empty-msg">暂无内容</Text>
+                    }
+
                   </View>
                 }
               </AtTabsPane>
