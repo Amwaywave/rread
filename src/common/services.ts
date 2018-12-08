@@ -97,5 +97,5 @@ export const getPosts = async (collection?: Collection) => {
     })
     posts = posts
   }
-  return Promise.resolve(posts.slice(0, 2))
+  return Promise.resolve(posts)
 }

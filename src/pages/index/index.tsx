@@ -72,7 +72,7 @@ class Index extends Component {
                         <View className="post-item" key={post.id}>
                           <View className="post-info">
                             <View className="post-feed">
-                              <Image className="logo" src={post.feed.icon}></Image>
+                              <Image className="logo" src={post.feed.iconUrl}></Image>
                               <Text className="post-feed-title">{post.feed.title}</Text>
                             </View>
                             <View className="post-status">
