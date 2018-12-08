@@ -1,14 +1,14 @@
 import Taro, { Component, Config } from '@tarojs/taro'
-import { View, Button, Text } from '@tarojs/components'
+import { View, Text, Image, ScrollView } from '@tarojs/components'
 import { observer, inject } from '@tarojs/mobx'
 import { AtTabs, AtTabsPane } from 'taro-ui'
-import { Post } from '../../model'
+import { Collection } from '../../model'
 
 import './index.less'
 
 type PageStateProps = {
   postsStore: {
-    posts: Post[],
+    collections: Collection[],
     get: Function
   }
 }
@@ -36,35 +36,8 @@ class Index extends Component {
     current: 1
   }
 
-  componentWillMount () { }
-
-  componentWillReact () {
-    console.log('componentWillReact')
-  }
-
   componentDidMount () {
     this.props.postsStore.get()
-  }
-
-  componentWillUnmount () { }
-
-  componentDidShow () { }
-
-  componentDidHide () { }
-
-  increment = () => {
-    const { counterStore } = this.props
-    counterStore.increment()
-  }
-
-  decrement = () => {
-    const { counterStore } = this.props
-    counterStore.decrement()
-  }
-
-  incrementAsync = () => {
-    const { counterStore } = this.props
-    counterStore.incrementAsync()
   }
 
   handleClick = (index => {
@@ -72,39 +45,57 @@ class Index extends Component {
   })
 
   render () {
-    const { postsStore} = this.props
+    const { current } = this.state
+    const { postsStore: { collections } } = this.props
+    const tabList = collections.map(({ name: title }) => ({ title }))
     return (
       <View className='index'>
         <AtTabs
-          current={this.state.current}
-          scroll
-          tabList={[
-            { title: '标签页1' },
-            { title: '标签页2' },
-            { title: '标签页3' },
-            { title: '标签页4' },
-            { title: '标签页5' },
-            { title: '标签页6' }
-          ]}
+          current={current}
+          scroll={tabList.length > 5}
+          tabList={tabList}
+          swipeable={true}
           onClick={this.handleClick}>
-          <AtTabsPane current={this.state.current} index={0}>
-            <View style='font-size:18px;text-align:center;height:100px;'>标签页一的内容</View>
-          </AtTabsPane>
-          <AtTabsPane current={this.state.current} index={1}>
-            <View style='font-size:18px;text-align:center;height:100px;'>标签页二的内容</View>
-          </AtTabsPane>
-          <AtTabsPane current={this.state.current} index={2}>
-            <View style='font-size:18px;text-align:center;height:100px;'>标签页三的内容</View>
-          </AtTabsPane>
-          <AtTabsPane current={this.state.current} index={3}>
-            <View style='font-size:18px;text-align:center;height:100px;'>标签页四的内容</View>
-          </AtTabsPane>
-          <AtTabsPane current={this.state.current} index={4}>
-            <View style='font-size:18px;text-align:center;height:100px;'>标签页五的内容</View>
-          </AtTabsPane>
-          <AtTabsPane current={this.state.current} index={5}>
-            <View style='font-size:18px;text-align:center;height:100px;'>标签页六的内容</View>
-          </AtTabsPane>
+          {
+            collections.map((item, index) => (
+              <AtTabsPane current={current} key={item.id} index={index}>
+                {
+                  item.posts && item.posts.length ?
+                  <ScrollView
+                    className="post-container"
+                    scrollY={true}
+                    enable-back-to-top={true}>
+                    {
+                      item.posts.map(post => (
+                        <View className="post-item" key={post.id}>
+                          <View className="post-info">
+                            <View className="post-feed">
+                              <Image className="logo" src="http://ww1.sinaimg.cn/large/6aacac8fly1fxzig19jrwj205k05k745.jpg"></Image>
+                              <Text className="post-feed-title">少数派</Text>
+                            </View>
+                            <View className="post-status">
+                              <View className="post-is-read"/>
+                              <Text className="post-time">8.03PM</Text>
+                            </View>
+                          </View>
+                          <View className="post-title-container">
+                            <Text className="post-title">想了解无用但有趣的「冷知识」，你可以来这7个网站看看</Text>
+                          </View>
+                          <View className="post-content-container">
+                            <Text className="post-content">如果你经常逛 YouTube 或是 bilibili，相信你一定见过以《X 件 XX 的事》，那么接下来</Text>
+                          </View>
+                        </View>
+                      ))
+                    }
+                  </ScrollView>
+                  :
+                  <View className="empty-container">
+                    <Text className="empty-msg">暂无内容</Text>
+                  </View>
+                }
+              </AtTabsPane>
+            ))
+          }
         </AtTabs>
       </View>
     )
