@@ -8,9 +8,10 @@ class PostStore {
   @observable
   posts: Post[] = []
 
-  get = async () => {
-    const posts: Post[] = await getPosts()
-    this.posts = [...posts]
+  get = () => {
+    const posts: Post[] = getPosts()
+    console.log('posts', posts)
+    this.posts = posts
   }
 }
 

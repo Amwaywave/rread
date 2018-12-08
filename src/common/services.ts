@@ -1,6 +1,7 @@
 const mockData = {
   posts: [
     {
+      id: 1,
       title: '第一个标题',
       content: '内容',
       date: new Date(),

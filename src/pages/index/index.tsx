@@ -1,6 +1,7 @@
 import Taro, { Component, Config } from '@tarojs/taro'
 import { View, Button, Text } from '@tarojs/components'
 import { observer, inject } from '@tarojs/mobx'
+import { Post } from '../../model'
 
 import './index.less'
 
@@ -10,6 +11,10 @@ type PageStateProps = {
     increment: Function,
     decrement: Function,
     incrementAsync: Function
+  },
+  postsStore: {
+    posts: Post[],
+    get: Function
   }
 }
 
@@ -17,7 +22,7 @@ interface Index {
   props: PageStateProps;
 }
 
-@inject('counterStore')
+@inject(allStore => allStore)
 @observer
 class Index extends Component {
 
@@ -38,7 +43,9 @@ class Index extends Component {
     console.log('componentWillReact')
   }
 
-  componentDidMount () { }
+  componentDidMount () {
+    this.props.postsStore.get()
+  }
 
   componentWillUnmount () { }
 
@@ -62,13 +69,23 @@ class Index extends Component {
   }
 
   render () {
-    const { counterStore: { counter } } = this.props
+    const { counterStore: { counter }, postsStore: { posts } } = this.props
     return (
       <View className='index'>
         <Button onClick={this.increment}>+</Button>
         <Button onClick={this.decrement}>-</Button>
         <Button onClick={this.incrementAsync}>Add Async</Button>
         <Text>{counter}</Text>
+        <View className="posts">
+          <Text>post list</Text>
+          {
+            posts.map(post => (
+              <View key={post.id} className="post-item">
+                <Text>{post.title}</Text>
+              </View>
+            ))
+          }
+        </View>
       </View>
     )
   }
