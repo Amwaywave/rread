@@ -2,14 +2,17 @@ import { observable } from 'mobx'
 import { services } from '../common'
 import { Post } from '../model'
 
-const { getPosts } = services
+const { getPosts, getCollections } = services
 
 class PostStore {
   @observable
   posts: Post[] = []
 
-  get = () => {
-    const posts: Post[] = getPosts()
+  get = async () => {
+    let collections = await getCollections()
+    console.log(collections)
+    const posts: Post[] = await getPosts(collections[0])
+    // const posts: Post[] = getPosts()
     console.log('posts', posts)
     this.posts = posts
   }
