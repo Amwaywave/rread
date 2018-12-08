@@ -10,11 +10,14 @@ export type Tag = {
  * 文章内容
  */
 export type Post = {
-  id: number,
+  id: string,
   title: string,
+  summary: string,
   content: string,
   date: Date,
-  tagList: Tag[]
+  // 源地址
+  originUrl: string
+  // tagList: Tag[]
 }
 
 /**
@@ -27,7 +30,7 @@ export type Feed = {
   title: string,
   topics: string[],
   visualUrl: string,
-  wbsite: string,
+  website: string,
   feedId: string
 }
 
