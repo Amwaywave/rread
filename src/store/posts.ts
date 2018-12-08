@@ -37,8 +37,12 @@ class PostStore {
   }
 
   getPosts = async (index) => {
-    this.loading = true
     const collection = this.collections[index]
+    if (collection.posts.length) {
+      return
+    }
+    this.loading = true
+
     try {
       this.collections[index].posts = await services.getPosts(collection)
     } catch (error) {
