@@ -1,17 +1,12 @@
 import Taro, { Component, Config } from '@tarojs/taro'
 import { View, Button, Text } from '@tarojs/components'
 import { observer, inject } from '@tarojs/mobx'
+import { AtTabs, AtTabsPane } from 'taro-ui'
 import { Post } from '../../model'
 
 import './index.less'
 
 type PageStateProps = {
-  counterStore: {
-    counter: number,
-    increment: Function,
-    decrement: Function,
-    incrementAsync: Function
-  },
   postsStore: {
     posts: Post[],
     get: Function
@@ -22,7 +17,7 @@ interface Index {
   props: PageStateProps;
 }
 
-@inject(allStore => allStore)
+@inject('postsStore')
 @observer
 class Index extends Component {
 
@@ -35,6 +30,10 @@ class Index extends Component {
    */
   config: Config = {
     navigationBarTitleText: '首页'
+  }
+
+  state = {
+    current: 1
   }
 
   componentWillMount () { }
@@ -68,24 +67,45 @@ class Index extends Component {
     counterStore.incrementAsync()
   }
 
+  handleClick = (index => {
+    this.setState({ current: index })
+  })
+
   render () {
-    const { counterStore: { counter }, postsStore: { posts } } = this.props
+    const { postsStore} = this.props
     return (
       <View className='index'>
-        <Button onClick={this.increment}>+</Button>
-        <Button onClick={this.decrement}>-</Button>
-        <Button onClick={this.incrementAsync}>Add Async</Button>
-        <Text>{counter}</Text>
-        <View className="posts">
-          <Text>post list</Text>
-          {
-            posts.map(post => (
-              <View key={post.id} className="post-item">
-                <Text>{post.title}</Text>
-              </View>
-            ))
-          }
-        </View>
+        <AtTabs
+          current={this.state.current}
+          scroll
+          tabList={[
+            { title: '标签页1' },
+            { title: '标签页2' },
+            { title: '标签页3' },
+            { title: '标签页4' },
+            { title: '标签页5' },
+            { title: '标签页6' }
+          ]}
+          onClick={this.handleClick}>
+          <AtTabsPane current={this.state.current} index={0}>
+            <View style='font-size:18px;text-align:center;height:100px;'>标签页一的内容</View>
+          </AtTabsPane>
+          <AtTabsPane current={this.state.current} index={1}>
+            <View style='font-size:18px;text-align:center;height:100px;'>标签页二的内容</View>
+          </AtTabsPane>
+          <AtTabsPane current={this.state.current} index={2}>
+            <View style='font-size:18px;text-align:center;height:100px;'>标签页三的内容</View>
+          </AtTabsPane>
+          <AtTabsPane current={this.state.current} index={3}>
+            <View style='font-size:18px;text-align:center;height:100px;'>标签页四的内容</View>
+          </AtTabsPane>
+          <AtTabsPane current={this.state.current} index={4}>
+            <View style='font-size:18px;text-align:center;height:100px;'>标签页五的内容</View>
+          </AtTabsPane>
+          <AtTabsPane current={this.state.current} index={5}>
+            <View style='font-size:18px;text-align:center;height:100px;'>标签页六的内容</View>
+          </AtTabsPane>
+        </AtTabs>
       </View>
     )
   }

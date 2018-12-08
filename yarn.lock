@@ -256,6 +256,12 @@
   dependencies:
     less "^3.0.4"
 
+"@tarojs/plugin-sass@^1.2.0-beta.11":
+  version "1.2.0-beta.11"
+  resolved "http://registry.npm.taobao.org/@tarojs/plugin-sass/download/@tarojs/plugin-sass-1.2.0-beta.11.tgz#9f9704b1caee4f62736f907bef1d484e35c54e3e"
+  dependencies:
+    node-sass "^4.8.3"
+
 "@tarojs/plugin-uglifyjs@^1.2.0-beta.11":
   version "1.2.0-beta.11"
   resolved "https://registry.npmjs.org/@tarojs/plugin-uglifyjs/-/plugin-uglifyjs-1.2.0-beta.11.tgz#3e0f56975a8f1afb77ce2353f3c4ec9520c4c541"
@@ -434,10 +440,21 @@
   version "10.12.12"
   resolved "https://registry.npmjs.org/@types/node/-/node-10.12.12.tgz#e15a9d034d9210f00320ef718a50c4a799417c47"
 
+"@types/prop-types@*":
+  version "15.5.7"
+  resolved "https://registry.npmjs.org/@types/prop-types/-/prop-types-15.5.7.tgz#c6f1e0d0109ff358b132d98b7b4025c7a7b707c5"
+
 "@types/react@16.3.14":
   version "16.3.14"
   resolved "https://registry.npmjs.org/@types/react/-/react-16.3.14.tgz#f90ac6834de172e13ecca430dcb6814744225d36"
   dependencies:
+    csstype "^2.2.0"
+
+"@types/react@^16.7.3":
+  version "16.7.13"
+  resolved "https://registry.npmjs.org/@types/react/-/react-16.7.13.tgz#d2369ae78377356d42fb54275d30218e84f2247a"
+  dependencies:
+    "@types/prop-types" "*"
     csstype "^2.2.0"
 
 "@types/webpack-env@^1.13.6":
@@ -1505,6 +1522,10 @@ binary-extensions@^1.0.0:
   version "1.12.0"
   resolved "https://registry.npmjs.org/binary-extensions/-/binary-extensions-1.12.0.tgz#c2d780f53d45bba8317a8902d4ceeaf3a6385b14"
 
+bind-decorator@^1.0.11:
+  version "1.0.11"
+  resolved "https://registry.npmjs.org/bind-decorator/-/bind-decorator-1.0.11.tgz#e41bc06a1f65dd9cec476c91c5daf3978488252f"
+
 block-stream@*:
   version "0.0.9"
   resolved "https://registry.npmjs.org/block-stream/-/block-stream-0.0.9.tgz#13ebfe778a03205cfe03751481ebb4b3300c126a"
@@ -1885,7 +1906,7 @@ class-utils@^0.3.5:
     isobject "^3.0.0"
     static-extend "^0.1.1"
 
-classnames@^2.2.5:
+classnames@^2.2.5, classnames@^2.2.6:
   version "2.2.6"
   resolved "https://registry.npmjs.org/classnames/-/classnames-2.2.6.tgz#43935bffdd291f326dad0a205309b38d00f650ce"
 
@@ -2340,6 +2361,10 @@ data-uri-to-buffer@1:
 date-now@^0.1.4:
   version "0.1.4"
   resolved "https://registry.npmjs.org/date-now/-/date-now-0.1.4.tgz#eaf439fd4d4848ad74e5cc7dbef200672b9e345b"
+
+dayjs@^1.7.7:
+  version "1.7.7"
+  resolved "https://registry.npmjs.org/dayjs/-/dayjs-1.7.7.tgz#8df20f78ac2476e3f5348ef49f8f22ebc3016370"
 
 debug@*:
   version "4.1.0"
@@ -7051,6 +7076,17 @@ tar@^4, tar@^4.0.2:
     mkdirp "^0.5.0"
     safe-buffer "^5.1.2"
     yallist "^3.0.2"
+
+taro-ui@^1.5.1:
+  version "1.5.1"
+  resolved "https://registry.npmjs.org/taro-ui/-/taro-ui-1.5.1.tgz#145c2bea3d9cf51370410b4783a8216d7ad3ca18"
+  dependencies:
+    "@types/react" "^16.7.3"
+    bind-decorator "^1.0.11"
+    classnames "^2.2.6"
+    dayjs "^1.7.7"
+    lodash "^4.17.10"
+    prop-types "^15.6.2"
 
 terser-webpack-plugin@^1.1.0:
   version "1.1.0"
