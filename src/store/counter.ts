@@ -1,21 +1,24 @@
 import { observable } from 'mobx'
 
-const counterStore = observable({
-  counter: 0
-})
+class CounterStore {
+  @observable
+  counter = 0
 
-counterStore.increment = function () {
-  this.counter++
-}
-
-counterStore.decrement = function() {
-  this.counter--
-}
-
-counterStore.incrementAsync = function() {
-  setTimeout(() => {
+  increment = () => {
     this.counter++
-  }, 1000);
+  }
+
+  decrement = () => {
+    this.counter--
+  }
+
+  incrementAsync = () => {
+    setTimeout(() => {
+      this.counter++
+    }, 1000);
+  }
 }
 
-export default counterStore
+const countStore = new CounterStore()
+
+export default countStore
