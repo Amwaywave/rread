@@ -76,15 +76,17 @@ class Index extends Component {
                               <Text className="post-feed-title">{post.feed.title}</Text>
                             </View>
                             <View className="post-status">
-                              <View className="post-is-read"/>
-                              <Text className="post-time">8.03PM</Text>
+                              {
+                                post.unread && <View className="post-is-read"/>
+                              }
+                              <Text className="post-time">{post.time}</Text>
                             </View>
                           </View>
                           <View className="post-title-container">
                             <Text className="post-title">{post.title}</Text>
                           </View>
                           <View className="post-content-container">
-                            <Text className="post-content">{post.summary}</Text>
+                            {post.summary}
                           </View>
                         </View>
                       ))
