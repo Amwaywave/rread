@@ -11,6 +11,8 @@ npm start
 
 ### 微信开发者工具
 
+**运行后选择dist目录**
+
 设置 > 项目设置
 ![](http://ww1.sinaimg.cn/large/6aacac8fgy1fy2nn6c88vj20jn0joq4o.jpg)
 
