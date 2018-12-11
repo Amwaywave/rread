@@ -9,26 +9,8 @@ const API_COLLECTIONS = "/v3/collections"
 // postlist api
 const API_POST_LIST = "/v3/streams/{streamId}/contents?count=10"
 
-//
+// default token
 const TOKEN = "AyrCQtCm-PzFXwmeU8FZVsEQKEy8b7ePLj6F5PUzmsRgAZi2mvX4dYbknOIqO22C19LKNvzdOUMDhKXerbscNPRzmPMqQoLCCLKFM7W-5pJ6ic7nftNhjSJeprrUiVncMa5CcVc8HNa54o3GqFw5IqDWbQ2fqiepPAbj_Kn89-kDd0UKEM1NlxdMSfAcowpENHpABISDayRB8C9JaO19w1MiIfHS4aoVAGPJxHqrrZ1qVS2XPiYRFRCAkSJa:feedlydev"
-
-const mockData = {
-  posts: [
-    {
-      id: 1,
-      title: '第一个标题',
-      content: '内容',
-      date: new Date(),
-      tagList: [
-        {
-          id: 1,
-          name: '新闻资讯'
-        }
-      ]
-    }
-  ]
-}
-
 
 function getHeaders() {
   return {
