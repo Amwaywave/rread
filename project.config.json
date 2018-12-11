@@ -4,7 +4,7 @@
   "description": "a rss reader",
   "appid": "wx22dc19f5d8723ed7",
   "setting": {
-    "urlCheck": true,
+    "urlCheck": false,
     "es6": false,
     "postcss": false,
     "minified": false
