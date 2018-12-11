@@ -34,11 +34,18 @@ class ParseComponent extends Component {
     WxParse.wxParse('article', 'html', article, this.$scope, 5)
   }
 
+  onClick = () => {
+    const { id, index } = this.$router.params
+    Taro.navigateTo({
+      url: `/pages/detail/index?id=${id}&index=${index}`
+    })
+  }
+
   render () {
     const post = this.post!
     return (
       <View className="summary">
-        <View className="post-title-container">
+        <View className="post-title-container" onClick={this.onClick}>
           <Text className="post-title">{post.title}</Text>
         </View>
         <View className="wxParse">
