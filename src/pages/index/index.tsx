@@ -3,7 +3,7 @@ import { View, Text, Image, ScrollView } from '@tarojs/components'
 import { observer, inject } from '@tarojs/mobx'
 import { observable } from 'mobx'
 import { AtTabs, AtTabsPane } from 'taro-ui'
-import { Collection } from '../../model'
+import { Post, Collection } from '../../model'
 
 import './index.less'
 
@@ -37,7 +37,6 @@ class Index extends Component {
 
   @observable current = 0
 
-
   componentDidMount () {
     this.props.postsStore.getCollections()
   }
@@ -46,6 +45,12 @@ class Index extends Component {
     this.props.postsStore.getPosts(index)
     this.current = index
   })
+
+  onPostClick = (post: Post) => {
+    Taro.navigateTo({
+      url: `/pages/detail/index?id=${post.id}&index=${this.current}`
+    })
+  }
 
   render () {
     const { postsStore: { collections, loading } } = this.props
@@ -69,10 +74,10 @@ class Index extends Component {
                     enable-back-to-top={true}>
                     {
                       item.posts.map(post => (
-                        <View className="post-item" key={post.id}>
+                        <View className="post-item" key={post.id} onClick={this.onPostClick.bind(null, post)}>
                           <View className="post-info">
                             <View className="post-feed">
-                              <Image className="logo" src={post.feed.iconUrl}></Image>
+                              <Image className="logo" lazyLoad={true} src={post.feed.iconUrl}></Image>
                               <Text className="post-feed-title">{post.feed.title}</Text>
                             </View>
                             <View className="post-status">
