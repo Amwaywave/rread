@@ -1,7 +1,7 @@
 export const add = (a, b) => a + b
 
 export const getTextByHtml = (html = '') => {
-  return html.replace(/<\/?[^>]+>/g,"")
+  return html.replace(/<\/?[^>]+>/g,"").substr(0, 50)
 }
 
 const convertTime = (time) => time >= 10 ? time : `0${time}`
