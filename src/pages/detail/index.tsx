@@ -1,6 +1,5 @@
 import Taro, { Component, Config } from '@tarojs/taro'
 import { View, WebView } from '@tarojs/components'
-import { AtToast } from "taro-ui"
 import { observer, inject } from '@tarojs/mobx'
 import { observable } from 'mobx'
 import { Collection } from '../../model'

@@ -77,13 +77,15 @@ export const getPosts = async (collection: Collection) => {
     if (items && items.length) {
       const posts: Post[] = []
       items.forEach(item => {
-        const summary = getTextByHtml(item.summary ? item.summary.content : "")
+        const summaryHtml = item.summary ? item.summary.content : ''
+        const summary = getTextByHtml(summaryHtml)
         const time = getTime(item.published)
         const feed = collection.feeds.find(feed => feed.id === item.origin.streamId)!
         posts.push({
           id: item.id,
           title: item.title,
           originUrl: item.originId,
+          summaryHtml,
           summary,
           time,
           feed,

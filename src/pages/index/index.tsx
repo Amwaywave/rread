@@ -48,7 +48,7 @@ class Index extends Component {
 
   onPostClick = (post: Post) => {
     Taro.navigateTo({
-      url: `/pages/detail/index?id=${post.id}&index=${this.current}`
+      url: `/pages/summary/index?id=${post.id}&index=${this.current}`
     })
   }
 
