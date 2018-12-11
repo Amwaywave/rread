@@ -12,7 +12,7 @@ npm start
 ### 微信开发者工具
 
 设置 > 项目设置
-![](http://ss1.sinaimg.cn/large/6aacac8fgy1fy2nec0lyvj20j803mt8y.jpg)
+![](http://ww1.sinaimg.cn/large/6aacac8fgy1fy2nn6c88vj20jn0joq4o.jpg)
 
 设置 > 代理设置 (自行配置)
-![](http://ss1.sinaimg.cn/large/6aacac8fgy1fy2nf3a06cj20og0k40ub.jpg)
+![](http://ww1.sinaimg.cn/large/6aacac8fgy1fy2nms11mgj20uo0qcgr7.jpg)
