@@ -13,9 +13,10 @@ export type Post = {
   id: string,
   title: string,
   summary: string,
-  date: Date,
+  time: string,
   // 源地址
   originUrl: string,
+  unread: boolean,
   feed: Feed
   // tagList: Tag[]
 }
@@ -25,7 +26,7 @@ export type Post = {
  */
 export type Feed = {
   id: string,
-  icon: string,
+  iconUrl: string,
   subscribers: number,
   title: string,
   topics: string[],

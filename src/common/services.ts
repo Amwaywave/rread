@@ -1,16 +1,16 @@
 import Taro from '@tarojs/taro'
 import { Post, Collection, Feed } from '../model'
-import { getTextByHtml } from './utils'
+import { getTextByHtml, getTime } from './utils'
 
 // api server
 const API_DOMAIN = "https://cloud.feedly.com"
 // collections api
 const API_COLLECTIONS = "/v3/collections"
 // postlist api
-const API_POST_LIST = "/v3/streams/{streamId}/contents?count=1"
+const API_POST_LIST = "/v3/streams/{streamId}/contents?count=10"
 
 //
-const TOKEN = "AyrCQtCm-PzFXwmeU8FZVsEQKEy8b7ePLj6F5PUzmsRgAZi2mvX4dYbknOIqO22C19LKKfzeOUcDiaTVqb4cNPJzl_EnT5zMQ_mdK_TptJcg2cmyY8pq2iNHv-jV3kOTOP5CakM_Tdu87Y2Xq11rcbPYY1_Nsiu0KF7jsqn34-8MeExeFclFlh9BEvNNuxZEbnoMBM7TdDJb9y5Dc-owgVN5IbzS6bgWB3zD2Wy-rclqFy3eaDQLEB-WlHJDaZc:feedlydev"
+const TOKEN = "AyrCQtCm-PzFXwmeU8FZVsEQKEy8b7ePLj6F5PUzmsRgAZi2mvX4dYbknOIqO22C19LKNvzdOUMDhKXerbscNPRzmPMqQoLCCLKFM7W-5pJ6ic7nftNhjSJeprrUiVncMa5CcVc8HNa54o3GqFw5IqDWbQ2fqiepPAbj_Kn89-kDd0UKEM1NlxdMSfAcowpENHpABISDayRB8C9JaO19w1MiIfHS4aoVAGPJxHqrrZ1qVS2XPiYRFRCAkSJa:feedlydev"
 
 const mockData = {
   posts: [
@@ -71,31 +71,28 @@ export const getCollections = async (): Promise<Collection[]> => {
   return Promise.resolve(collections)
 }
 
-export const getPosts = async (collection?: Collection) => {
-  let posts: Post[] = []
-  // 获取该collection下的所有feeds
-  if (collection) {
-    // 直接使用已经获取的feeds
-    const reqList = collection.feeds.map(({ feedId }) => request(API_POST_LIST.replace("{streamId}", encodeURIComponent(feedId))))
-    const resList = await Promise.all(reqList)
-    resList.forEach((res, index) => {
-      const feed = collection.feeds[index]
-      let data = res.data
-      if (data.items && data.items.length > 0) {
-        data.items.forEach(item => {
-          let content = getTextByHtml(item.summary ? item.summary.content : "")
-          posts.push({
-            id: item.id,
-            title: item.title,
-            originUrl: item.originId,
-            summary: content,
-            date: new Date(item.published),
-            feed: feed
-          })
+export const getPosts = async (collection: Collection) => {
+  try {
+    const { data: { items } } = await request(API_POST_LIST.replace("{streamId}", encodeURIComponent(collection.id)))
+    if (items && items.length) {
+      const posts: Post[] = []
+      items.forEach(item => {
+        const summary = getTextByHtml(item.summary ? item.summary.content : "")
+        const time = getTime(item.published)
+        const feed = collection.feeds.find(feed => feed.id === item.origin.streamId)!
+        posts.push({
+          id: item.id,
+          title: item.title,
+          originUrl: item.originId,
+          summary,
+          time,
+          feed,
+          unread: item.unread,
         })
-      }
-    })
-    posts = posts
+      })
+      return Promise.resolve(posts)
+    }
+  } catch (error) {
+    return Promise.resolve([])
   }
-  return Promise.resolve(posts)
 }

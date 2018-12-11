@@ -2,7 +2,7 @@
   "miniprogramRoot": "./dist",
   "projectname": "rread",
   "description": "a rss reader",
-  "appid": "touristappid",
+  "appid": "wx22dc19f5d8723ed7",
   "setting": {
     "urlCheck": true,
     "es6": false,
