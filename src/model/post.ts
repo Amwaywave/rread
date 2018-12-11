@@ -12,8 +12,11 @@ export type Tag = {
 export type Post = {
   id: string,
   title: string,
+  summaryHtml: string,
   summary: string,
   time: string,
+  published: number,
+  resTime: number,
   // 源地址
   originUrl: string,
   unread: boolean,

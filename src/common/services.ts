@@ -3,32 +3,14 @@ import { Post, Collection, Feed } from '../model'
 import { getTextByHtml, getTime } from './utils'
 
 // api server
-const API_DOMAIN = "https://cloud.feedly.com"
+const API_DOMAIN = "http://144.34.251.62:8080"
 // collections api
 const API_COLLECTIONS = "/v3/collections"
 // postlist api
 const API_POST_LIST = "/v3/streams/{streamId}/contents?count=10"
 
-//
+// default token
 const TOKEN = "AyrCQtCm-PzFXwmeU8FZVsEQKEy8b7ePLj6F5PUzmsRgAZi2mvX4dYbknOIqO22C19LKNvzdOUMDhKXerbscNPRzmPMqQoLCCLKFM7W-5pJ6ic7nftNhjSJeprrUiVncMa5CcVc8HNa54o3GqFw5IqDWbQ2fqiepPAbj_Kn89-kDd0UKEM1NlxdMSfAcowpENHpABISDayRB8C9JaO19w1MiIfHS4aoVAGPJxHqrrZ1qVS2XPiYRFRCAkSJa:feedlydev"
-
-const mockData = {
-  posts: [
-    {
-      id: 1,
-      title: '第一个标题',
-      content: '内容',
-      date: new Date(),
-      tagList: [
-        {
-          id: 1,
-          name: '新闻资讯'
-        }
-      ]
-    }
-  ]
-}
-
 
 function getHeaders() {
   return {
@@ -71,21 +53,26 @@ export const getCollections = async (): Promise<Collection[]> => {
   return Promise.resolve(collections)
 }
 
-export const getPosts = async (collection: Collection) => {
+export const getPosts = async (collection: Collection): Promise<Post[]> => {
   try {
     const { data: { items } } = await request(API_POST_LIST.replace("{streamId}", encodeURIComponent(collection.id)))
     if (items && items.length) {
       const posts: Post[] = []
       items.forEach(item => {
-        const summary = getTextByHtml(item.summary ? item.summary.content : "")
-        const time = getTime(item.published)
+        const { published } = item
+        const summaryHtml = item.summary ? item.summary.content : ''
+        const summary = getTextByHtml(summaryHtml)
+        const time = getTime(published)
         const feed = collection.feeds.find(feed => feed.id === item.origin.streamId)!
         posts.push({
           id: item.id,
           title: item.title,
           originUrl: item.originId,
+          summaryHtml,
           summary,
           time,
+          resTime: Date.now(),
+          published,
           feed,
           unread: item.unread,
         })
@@ -93,6 +80,7 @@ export const getPosts = async (collection: Collection) => {
       return Promise.resolve(posts)
     }
   } catch (error) {
-    return Promise.resolve([])
+    console.error(error)
   }
+  return Promise.resolve([])
 }
