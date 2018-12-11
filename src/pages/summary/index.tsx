@@ -1,7 +1,8 @@
 import Taro, { Component } from '@tarojs/taro'
-import { View } from '@tarojs/components'
+import { View, Text } from '@tarojs/components'
 import { observer, inject } from '@tarojs/mobx'
-import { Collection } from '../../model'
+import { observable } from 'mobx'
+import { Collection, Post } from '../../model'
 import WxParse from '../../components/wxParse/wxParse'
 
 import './index.less'
@@ -23,18 +24,27 @@ interface ParseComponent {
 @inject('postsStore')
 @observer
 class ParseComponent extends Component {
+  @observable
+  post: Post | undefined
+
   componentDidMount () {
     const { id, index } = this.$router.params
     this.post = this.props.postsStore.collections[index].posts.find(post => post.id === id)
-    const article = this.post.summaryHtml
+    const article = this.post!.summaryHtml
     WxParse.wxParse('article', 'html', article, this.$scope, 5)
   }
 
   render () {
+    const post = this.post!
     return (
       <View className="summary">
-        <import src='../../components/wxParse/wxParse.wxml' />
-        <template is='wxParse' data='{{wxParseData:article.nodes}}'/>
+        <View className="post-title-container">
+          <Text className="post-title">{post.title}</Text>
+        </View>
+        <View className="wxParse">
+          <import src='../../components/wxParse/wxParse.wxml' />
+          <template is='wxParse' data='{{wxParseData:article.nodes}}'/>
+        </View>
       </View>
     )
   }
