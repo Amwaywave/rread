@@ -71,7 +71,7 @@ export const getPosts = async (collection: Collection): Promise<Post[]> => {
           summaryHtml,
           summary,
           time,
-          reqTime: Date.now(),
+          resTime: Date.now(),
           published,
           feed,
           unread: item.unread,

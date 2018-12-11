@@ -16,7 +16,7 @@ export type Post = {
   summary: string,
   time: string,
   published: number,
-  reqTime: number,
+  resTime: number,
   // 源地址
   originUrl: string,
   unread: boolean,

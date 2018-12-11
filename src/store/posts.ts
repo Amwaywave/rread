@@ -54,7 +54,7 @@ class PostStore {
   getPosts = async (index) => {
     const collection = this.collections[index]
     if (collection.posts.length) {
-      if (Date.now() - collection.posts[0].reqTime < 1000 * 60 * 5) {
+      if (Date.now() - collection.posts[0].resTime < 1000 * 60 * 5) {
         return
       }
     }
