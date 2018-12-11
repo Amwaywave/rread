@@ -53,15 +53,16 @@ export const getCollections = async (): Promise<Collection[]> => {
   return Promise.resolve(collections)
 }
 
-export const getPosts = async (collection: Collection) => {
+export const getPosts = async (collection: Collection): Promise<Post[]> => {
   try {
     const { data: { items } } = await request(API_POST_LIST.replace("{streamId}", encodeURIComponent(collection.id)))
     if (items && items.length) {
       const posts: Post[] = []
       items.forEach(item => {
+        const { published } = item
         const summaryHtml = item.summary ? item.summary.content : ''
         const summary = getTextByHtml(summaryHtml)
-        const time = getTime(item.published)
+        const time = getTime(published)
         const feed = collection.feeds.find(feed => feed.id === item.origin.streamId)!
         posts.push({
           id: item.id,
@@ -70,6 +71,8 @@ export const getPosts = async (collection: Collection) => {
           summaryHtml,
           summary,
           time,
+          reqTime: Date.now(),
+          published,
           feed,
           unread: item.unread,
         })
@@ -77,6 +80,7 @@ export const getPosts = async (collection: Collection) => {
       return Promise.resolve(posts)
     }
   } catch (error) {
-    return Promise.resolve([])
+    console.error(error)
   }
+  return Promise.resolve([])
 }
