@@ -46,7 +46,8 @@ class ParseComponent extends Component {
     return (
       <View className="summary">
         <View className="post-title-container" onClick={this.onClick}>
-          <Text className="post-title">{post.title}</Text>
+          <View className="post-title">{post.title}</View>
+          <View className="post-feed-title">{post.feed.title}</View>
         </View>
         <View className="wxParse">
           <import src='../../components/wxParse/wxParse.wxml' />

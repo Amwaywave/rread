@@ -3,7 +3,7 @@ import { Post, Collection, Feed } from '../model'
 import { getTextByHtml, getTime } from './utils'
 
 // api server
-const API_DOMAIN = "http://144.34.251.62:8080"
+const API_DOMAIN = "https://cloud.feedly.com"
 // collections api
 const API_COLLECTIONS = "/v3/collections"
 // postlist api
