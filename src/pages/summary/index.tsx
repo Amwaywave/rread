@@ -1,9 +1,8 @@
 import Taro, { Component } from '@tarojs/taro'
-import { View, Text } from '@tarojs/components'
+import { View } from '@tarojs/components'
 import { observer, inject } from '@tarojs/mobx'
 import { observable } from 'mobx'
 import { Collection, Post } from '../../model'
-import WxParse from '../../components/wxParse/wxParse'
 
 import './index.less'
 
@@ -27,17 +26,29 @@ class ParseComponent extends Component {
   @observable
   post: Post | undefined
 
+  config = {
+    // 定义需要引入的第三方组件
+    usingComponents: {
+      htmltowxml: '../../components/html2wxml-component/html2wxml'
+    },
+    navigationBarTitleText: '文章详情'
+  }
+
   componentDidMount () {
     const { id, index } = this.$router.params
     this.post = this.props.postsStore.collections[index].posts.find(post => post.id === id)
-    const article = this.post!.summaryHtml
-    WxParse.wxParse('article', 'html', article, this.$scope, 5)
   }
 
   onClick = () => {
     const { id, index } = this.$router.params
     Taro.navigateTo({
       url: `/pages/detail/index?id=${id}&index=${index}`
+    })
+  }
+
+  onTagClick = (e) => {
+    Taro.navigateTo({
+      url: `/pages/detail/index?url=${e.detail.src}`
     })
   }
 
@@ -50,8 +61,7 @@ class ParseComponent extends Component {
           <View className="post-feed-title">{post.feed.title}</View>
         </View>
         <View className="wxParse">
-          <import src='../../components/wxParse/wxParse.wxml' />
-          <template is='wxParse' data='{{wxParseData:article.nodes}}'/>
+          <htmltowxml text={post.summaryHtml} onwxmltagatap={this.onTagClick} padding={30}></htmltowxml>
         </View>
       </View>
     )
