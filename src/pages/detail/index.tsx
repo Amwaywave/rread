@@ -25,11 +25,16 @@ class Index extends Component {
     navigationBarTitleText: '文章详情'
   }
 
-  @observable post
+  @observable url
 
   componentWillMount () {
-    const { id, index } = this.$router.params
-    this.post = this.props.postsStore.collections[index].posts.find(post => post.id === id)
+    const { id, index, url } = this.$router.params
+    if (url) {
+      this.url = url
+    } else {
+      const post = this.props.postsStore.collections[index].posts.find(post => post.id === id)
+      this.url = post!.originUrl
+    }
     Taro.showLoading({
       title: '加载中...'
     }).then(res => console.log(res))
@@ -50,7 +55,7 @@ class Index extends Component {
   render () {
     return (
       <View>
-        <WebView src={this.post.originUrl} onLoad={this.handleLoad} onError={this.handleError} />
+        <WebView src={this.url} onLoad={this.handleLoad} onError={this.handleError} />
       </View>
     )
   }
