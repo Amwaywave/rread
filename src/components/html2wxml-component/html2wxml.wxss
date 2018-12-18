@@ -1,6 +1,6 @@
 /**
  * Project: html2wxml
- * Description: 将HTML、Markdown转为微信小程序WXML 
+ * Description: 将HTML、Markdown转为微信小程序WXML
  * Author: 幻想小籽
  * Organization: QwqOffice (https://www.qwqoffice.com)
  */
@@ -267,7 +267,7 @@
 
 .wxml-li-text {
     align-items: center;
-    line-height: 20px;
+    line-height: 1;
 }
 
 .wxml-li-type {
